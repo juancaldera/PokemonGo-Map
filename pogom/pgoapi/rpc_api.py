@@ -26,6 +26,7 @@ Author: tjado <https://github.com/tejado>
 import logging
 import requests
 import subprocess
+import os
 
 from exceptions import NotLoggedInException, ServerBusyOrOfflineException
 
@@ -63,10 +64,18 @@ class RpcApi:
         
     def _make_rpc(self, endpoint, request_proto_plain):
         self.log.debug('Execution of RPC')
+
+        if os.environ['PROXY']:
+            proxies = { 
+              'http': os.environ['PROXY'],
+              'https': os.environ['PROXY'],
+            }
+        else:
+            proxies = {}
         
         request_proto_serialized = request_proto_plain.SerializeToString()
         try:
-            http_response = self._session.post(endpoint, data=request_proto_serialized)
+            http_response = self._session.post(endpoint, data=request_proto_serialized, proxies=proxies)
         except requests.exceptions.ConnectionError as e:
             raise ServerBusyOrOfflineException
         
