@@ -1,3 +1,4 @@
+six==1.10.0
 Flask==0.11.1
 Jinja2==2.8
 MarkupSafe==0.23
@@ -17,3 +18,4 @@ PyMySQL==0.7.5
 flask-cors==2.1.2
 flask-compress==1.3.0
 pysocks==1.5.7
+LatLon==1.0.1
